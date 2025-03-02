@@ -1,1 +1,100 @@
-<!doctypehtml><html><head><meta charset=utf-8><title>Omega</title><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport><style>body,html{width:100%;height:100%;margin:0;padding:0;background:#000;overflow:hidden}canvas{display:block;image-rendering:crisp-edges}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:20px;z-index:1000}</style></head><body><div id=loading>Loading, please wait...</div><canvas id=canvas oncontextmenu=event.preventDefault()></canvas><script>var Module={canvas:document.getElementById("canvas")};function resizeCanvas(){let e,i;window.visualViewport?(e=window.visualViewport.width,i=window.visualViewport.height):(e=window.innerWidth,i=window.innerHeight);const n=window.devicePixelRatio||1,o=Math.round(e*n),a=Math.round(i*n);if(Module&&Module.ccall){try{Module.ccall("emscripten_resize_window","void",["number","number"],[o,a])}catch(e){console.log("Resize failed:",e)}Module.canvas.width=o,Module.canvas.height=a,Module.canvas.style.width=e+"px",Module.canvas.style.height=i+"px"}}window.addEventListener("resize",resizeCanvas),window.addEventListener("orientationchange",resizeCanvas),Module.onRuntimeInitialized=function(){console.log("Module initialized, performing initial resize"),resizeCanvas();var e=document.getElementById("loading");e&&e.remove()},Module.postRun=function(){console.log("Module postRun, resizing canvas"),resizeCanvas()}</script><script async src=Omega.js></script></body></html>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Omega</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: black;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            image-rendering: crisp-edges;
+        }
+
+        /* Loading message styling */
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading message element -->
+    <div id="loading">Loading, please wait...</div>
+    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+    <script>
+        var Module = {
+            canvas: document.getElementById('canvas')
+        };
+
+        function resizeCanvas() {
+            // Get the viewport dimensions in CSS pixels
+            let cssWidth, cssHeight;
+            if (window.visualViewport) {
+                cssWidth = window.visualViewport.width;
+                cssHeight = window.visualViewport.height;
+            } else {
+                cssWidth = window.innerWidth;
+                cssHeight = window.innerHeight;
+            }
+
+            // Get the device pixel ratio
+            const dpr = window.devicePixelRatio || 1;
+
+            // Round the dimensions to ensure integer values
+            const physicalWidth = Math.round(cssWidth * dpr);
+            const physicalHeight = Math.round(cssHeight * dpr);
+
+            // Notify the Emscripten module of the new size
+            if (Module && Module.ccall) {
+                try {
+                    // Pass the physical pixel dimensions to your OpenGL code
+                    Module.ccall('emscripten_resize_window',
+                        'void',
+                        ['number', 'number'],
+                        [physicalWidth, physicalHeight]);
+                } catch (e) {
+                    console.log("Resize failed:", e);
+                }
+
+                Module.canvas.width = physicalWidth;
+                Module.canvas.height = physicalHeight;
+                Module.canvas.style.width = cssWidth + 'px';
+                Module.canvas.style.height = cssHeight + 'px';
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', resizeCanvas);
+
+        // Remove the loading message once the wasm module is initialized
+        Module['onRuntimeInitialized'] = function () {
+            console.log("Module initialized, performing initial resize");
+            resizeCanvas();
+            var loadingElem = document.getElementById('loading');
+            if (loadingElem) {
+                loadingElem.remove();
+            }
+        };
+
+        Module['postRun'] = function () {
+            console.log("Module postRun, resizing canvas");
+            resizeCanvas();
+        };
+    </script>
+    <script async type="text/javascript" src="Omega.js"></script>
+</body>
+</html>
