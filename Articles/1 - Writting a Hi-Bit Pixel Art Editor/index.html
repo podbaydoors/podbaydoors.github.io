@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Converted Markdown</title>
-        <link rel="stylesheet" type="text/css" href="sakura.css">
-    </head>
-    <body>
-    <h1>Writting a Hi-Bit pixel art renderer - Part 1</h1>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Writting a Hi-Bit Pixel Art Editor</title>
+  <link rel="stylesheet" href="../../sakura.css">
+</head>
+<body>
+<h1>Writting a Hi-Bit pixel art renderer - Part 1</h1>
 <p>In this series of articles I'm going to cover the development of my hi-bit pixel art renderer. By hi-bit I mean a 2d rendering system that has a retro, pixel art aesthetic but doesn't constrain itself to the limitations of retro hardware. This is in contrast to games such as Shovel Knight that aim to faithfully adhere to the limitations of a specific platform. Hi-bit games will often use a wider color pallette or use shader techniques that wouldn't have been possible on retro hardware.</p>
 <p>The renderer was built using c++ and opengl. But I the techniques I discuss here should be usable using any api or 3rd party engine.</p>
 <figure>
-    <img title="" src="file:///D:/Dev/Website/omega.png" alt="" data-align="center">
+    <img title="" src="assets/omega.png" alt="" data-align="center">
     <figcaption><small>Omega by pieceoftoast</small></figcaption>
 </figure>
 
@@ -33,7 +33,7 @@
 <h3>Approach 1 - Orthographic 2D layers</h3>
 <p>The first thing I needed to figure out was how to layout objects in the scene. The objects of the scene being textured quads. My first approach was to copy how 2D games would have done it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. Objects can then be placed in layers. At render time, I drew each layer back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I'd scale the translation by the parallax amount. So for a layer with parallax scalar equal to 1, the layer would track the camera exactly. For a layer with parallax scalar set to .5, the objects in that layer would move at half the speed. </p>
 <figure>
-    <img title="" src="file:///D:/Dev/Website/LayerDiagram.jpg" alt="" data-align="center" width="500">
+    <img title="" src="assets/LayerDiagram.jpg" alt="" data-align="center" width="500">
     <figcaption><small>2D background and foreground layers combined for final image</small></figcaption>
 </figure>
 
@@ -41,7 +41,7 @@
 <h3>Approach 2 - 3D perspective with scale</h3>
 <p>For my next approach, I extended the renderer to 3D. I removed the concept of layers and gave each object a z position. The scene was rendered using a perspective projection matrix which gave the desired parallax effect when the camera moved in the xy plane. But by using a perpective projection objects farther in the background were drawn smaller on screen. This broke the goal of having a consistent texel size. To fix this, I calculated a xy scale for each object depending on its distance from the camera. </p>
 <figure>
-    <img title="" src="file:///D:/Dev/Website/ScaledPerspectiveDiagram.jpg" alt="" data-align="center" width="500">
+    <img title="" src="assets/ScaledPerspectiveDiagram.jpg" alt="" data-align="center" width="500">
     <figcaption><small>Textures scaled to maintain consistent texel size</small></figcaption>
 </figure>
 
@@ -63,9 +63,8 @@ float GetTexelScaleAtZ( float z )
 <p>To make the shadows look good I knew I needed to go back to using an orthographic projection with no object scaling. But with a standard orthographic projection there is no parralax. I then realized I could get parallax by applying a skew transformation to the view matrix. The skew transformation would translate objecs in the x&amp;y direction proportional to their z position. Here's how I did it.</p>
 <p>-Pick a world position </p>
 <video autoplay loop muted playsinline>
-  <source src="omega.mp4" type="video/mp4">
+  <source src="assets/omega.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
-    </body>
-    </html>
-    
+</body>
+</html>

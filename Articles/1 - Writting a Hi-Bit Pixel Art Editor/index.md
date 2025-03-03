@@ -5,7 +5,7 @@ In this series of articles I'm going to cover the development of my hi-bit pixel
 The renderer was built using c++ and opengl. But I the techniques I discuss here should be usable using any api or 3rd party engine.
 
 <figure>
-    <img title="" src="file:///D:/Dev/Website/omega.png" alt="" data-align="center">
+    <img title="" src="assets/omega.png" alt="" data-align="center">
   	<figcaption><small>Omega by pieceoftoast</small></figcaption>
 </figure>
 
@@ -32,7 +32,7 @@ I also added a goal that wasn't necessarily informed by the concept image.
 The first thing I needed to figure out was how to layout objects in the scene. The objects of the scene being textured quads. My first approach was to copy how 2D games would have done it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. Objects can then be placed in layers. At render time, I drew each layer back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I'd scale the translation by the parallax amount. So for a layer with parallax scalar equal to 1, the layer would track the camera exactly. For a layer with parallax scalar set to .5, the objects in that layer would move at half the speed. 
 
 <figure>
-    <img title="" src="file:///D:/Dev/Website/LayerDiagram.jpg" alt="" data-align="center" width="500">
+    <img title="" src="assets/LayerDiagram.jpg" alt="" data-align="center" width="500">
   	<figcaption><small>2D background and foreground layers combined for final image</small></figcaption>
 </figure>
 
@@ -42,7 +42,7 @@ This approach quickly proved limiting and cumbersome. Scene management, such as 
 For my next approach, I extended the renderer to 3D. I removed the concept of layers and gave each object a z position. The scene was rendered using a perspective projection matrix which gave the desired parallax effect when the camera moved in the xy plane. But by using a perpective projection objects farther in the background were drawn smaller on screen. This broke the goal of having a consistent texel size. To fix this, I calculated a xy scale for each object depending on its distance from the camera. 
 
 <figure>
-    <img title="" src="file:///D:/Dev/Website/ScaledPerspectiveDiagram.jpg" alt="" data-align="center" width="500">
+    <img title="" src="assets/ScaledPerspectiveDiagram.jpg" alt="" data-align="center" width="500">
   	<figcaption><small>Textures scaled to maintain consistent texel size</small></figcaption>
 </figure>
 
@@ -72,6 +72,6 @@ To make the shadows look good I knew I needed to go back to using an orthographi
 -Pick a world position 
 
 <video autoplay loop muted playsinline>
-  <source src="omega.mp4" type="video/mp4">
+  <source src="assets/omega.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
