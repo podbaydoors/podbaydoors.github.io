@@ -7,7 +7,9 @@ def convert_article(article_dir):
     """
     Convert the article's index.md file into index.html.
     The generated HTML file links to the sakura.css in the website root using a relative path.
-    It returns a tuple (article_number, article_title, relative_link) for use in the main index.
+    At the top of the article, it adds a clickable title "pod bay doors" that links back to the main page,
+    followed by a light grey horizontal line separator.
+    Returns a tuple (article_number, article_title, relative_link) for use in the main index.
     """
     md_path = os.path.join(article_dir, "index.md")
     if not os.path.exists(md_path):
@@ -32,8 +34,7 @@ def convert_article(article_dir):
         article_title = dir_name
 
     # Build the complete HTML.
-    # Note: Since index.html is created in the article folder ("Articles/ArticleFolder"),
-    # the relative path from that location to the root is two levels up ("../../sakura.css").
+    # The relative path from the article folder (Articles/ArticleFolder) to the website root is "../../".
     full_html = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +43,8 @@ def convert_article(article_dir):
   <link rel="stylesheet" href="../../sakura.css">
 </head>
 <body>
+  <h1><a href="../../index.html">pod bay doors</a></h1>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
 {html_body}
 </body>
 </html>
@@ -59,9 +62,10 @@ def generate_root_index(article_info_list):
     """
     Generate the root index.html file that lists all articles in increasing order.
     Each article is linked to its generated index.html.
-    The link text is the article name (with the number and dash removed).
+    The main page now features a clickable "pod bay doors" title (linking to itself)
+    with a light grey horizontal line separator, and the old "Articles" header is removed.
     """
-    # Sort the articles by their number
+    # Sort the articles by their number.
     article_info_list.sort(key=lambda x: x[0])
 
     # Build the list of article links.
@@ -69,16 +73,17 @@ def generate_root_index(article_info_list):
     for number, title, link in article_info_list:
         list_items += f'  <li><a href="{link}">{title}</a></li>\n'
 
-    # The root index.html links directly to sakura.css (located in the root).
+    # Create the main page with the clickable title and horizontal line.
     index_html = f"""<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Articles</title>
+  <title>pod bay doors</title>
   <link rel="stylesheet" href="sakura.css">
 </head>
 <body>
-  <h1>Articles</h1>
+  <h1><a href="index.html">pod bay doors</a></h1>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul>
 {list_items}  </ul>
 </body>
