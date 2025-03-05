@@ -112,7 +112,7 @@ def convert_article(article_dir):
 <head>
   <meta charset="utf-8">
   <title>{article_title}</title>
-  <link rel="stylesheet" href="../../sakura.css">
+  <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
   <h1><a href="../../index.html">pod bay doors</a></h1>
@@ -140,7 +140,7 @@ def generate_root_index(article_info_list):
     article_info_list.sort(key=lambda x: x[0])
     list_items = ""
     for number, title, link in article_info_list:
-        list_items += f'  <li><a href="{link}">{title}</a></li>\n'
+        list_items += f'  <li class = "post"><a href="{link}">{title}</a></li>\n'
 
     # Added inline CSS to modify the hover effect on article links:
     # - When hovered, the background becomes grey.
@@ -150,7 +150,7 @@ def generate_root_index(article_info_list):
 <head>
   <meta charset="utf-8">
   <title>pod bay doors</title>
-  <link rel="stylesheet" href="sakura.css">
+  <link rel="stylesheet" href="style.css">
   <style>
     ul {{
     list-style: none;
@@ -171,7 +171,7 @@ def generate_root_index(article_info_list):
 <body>
   <h1><a href="index.html">pod bay doors</a></h1>
   <hr style="border: none; border-top: 1px solid lightgrey;">
-  <ul>
+  <ul class = "posts">
 {list_items}  </ul>
 </body>
 </html>
