@@ -3,6 +3,10 @@ import os
 import re
 import markdown
 
+SITE_TITLE_FONT =  """<link rel='preconnect' href='https://fonts.googleapis.com'>
+                      <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+                      <link href='https://fonts.googleapis.com/css2?family=Gruppo&display=swap' rel='stylesheet'>"""
+                    
 def get_correct_case_path(rel_path, base_dir):
     """
     Given a relative path (using "/" as separator) and a base directory,
@@ -110,17 +114,14 @@ def convert_article(article_dir):
     full_html = f"""<!DOCTYPE html>
 <html>
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
-  
+  {SITE_TITLE_FONT}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{article_title}</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <h1><a class="site-title" href="../../index.html">pod bay doors</a></h1>
+  <h1 class="site-title"><a href="../../index.html" style="color: inherit; text-decoration: none; font-family: inherit;">pod bay doors</a></h1>
   <hr style="border: none; border-top: 1px solid lightgrey;">
 {html_body}
 </body>
@@ -153,10 +154,7 @@ def generate_root_index(article_info_list):
     index_html = f"""<!DOCTYPE html>
 <html>
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
-
+  {SITE_TITLE_FONT}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>pod bay doors</title>
