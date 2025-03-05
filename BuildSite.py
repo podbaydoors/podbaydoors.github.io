@@ -111,6 +111,7 @@ def convert_article(article_dir):
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{article_title}</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
@@ -149,6 +150,7 @@ def generate_root_index(article_info_list):
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>pod bay doors</title>
   <link rel="stylesheet" href="style.css">
   <style>
