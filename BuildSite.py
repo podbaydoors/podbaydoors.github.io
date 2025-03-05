@@ -116,7 +116,7 @@ def convert_article(article_dir):
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <h1><a href="../../index.html">pod bay doors</a></h1>
+  <h1><a href="../../index.html" style="color: inherit; text-decoration: none;">pod bay doors</a></h1>
   <hr style="border: none; border-top: 1px solid lightgrey;">
 {html_body}
 </body>
@@ -171,7 +171,7 @@ def generate_root_index(article_info_list):
   </style>
 </head>
 <body>
-  <h1><a href="index.html">pod bay doors</a></h1>
+  <h1>pod bay doors</h1>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class = "posts">
 {list_items}  </ul>
