@@ -53,17 +53,6 @@
 
 <p>With this approach the camera can move in x and y but must be fixed in z. Moving in z will cause closer objects to scale up/down faster than objects farther away. This will break the consitent texel size goal.</p>
 <p>Here is how I calculated the camera distance. I picked z==0 as the location at which object scale would equal 1.</p>
-<pre><code>//Code that runs at renderer startup
-//Set camera distance so that the height of xy plane at z==0 is gScreenHeightInTexels.
-gCameraDist = (gScreenHeightInTexels)/(2.f*tanf(DegToRad(.5f*gRenderVerticalFOVDegrees)));
-
-//Returns how much to scale a textured quad so that texels are a consistent on-screen size
-float GetTexelScaleAtZ( float z )
-{
-    float scale = (gCameraDist-z)/gCameraDist;
-    return scale;
-}
-</code></pre>
 <p>When placing or moving an object, I'd set the scale by calling the function GetTexelScaleAtZ. This technique worked well and I was mostly satisfied with it. There was a bit of code complexity in managing object scale (I recall moving multiple objects at different z-depths was a tricky problem to get right). But I proceeded with development using this approach for quite a while. It wasn't until I began implementing shadows that I started to rethink it. Basically, if we project a shadow onto an object farther in the distance, the shadow texels will be smaller than the texels of the surface they are projected onto. We can use nearest sampling to make them the correct size but then we are downsampling our pixel art. And downsampled pixel art never looks good.</p>
 <h3>Approach 3 - Skewed orthographic</h3>
 <p>To make the shadows look good I knew I needed to go back to using an orthographic projection with no object scaling. But with a standard orthographic projection there is no parralax. I then realized I could get parallax by applying a skew transformation to the view matrix. The skew transformation would translate objecs in the x&amp;y direction proportional to their z position. Here's how I did it.</p>
