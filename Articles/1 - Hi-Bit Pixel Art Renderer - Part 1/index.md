@@ -50,7 +50,7 @@ With this approach, the camera can move in x and y but must be fixed in z. Movin
 
 Here is how I calculated the camera distance. I picked z==0 as the location at which the object scale would equal 1.
 
-```
+```cpp
 //Code that runs at renderer startup
 //Set camera distance so that the height of xy plane at z==0 is gScreenHeightInTexels.
 gCameraDist = (gScreenHeightInTexels)/(2.f*tanf(DegToRad(.5f*gRenderVerticalFOVDegrees)));

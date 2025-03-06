@@ -95,7 +95,7 @@ def convert_article(article_dir):
     md_content = fix_asset_paths_in_markdown(md_content, article_dir)
 
     # Convert markdown to HTML with fenced code blocks enabled.
-    html_body = markdown.markdown(md_content, extensions=["fenced_code"])
+    html_body = markdown.markdown(md_content, extensions=["fenced_code", "codehilite"])
 
     # Extract article number and title from the directory name.
     # Expected format: "Number - Article Name"
@@ -119,6 +119,7 @@ def convert_article(article_dir):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{article_title}</title>
   <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../pygments.css">
 </head>
 <body>
   <h1 class="site-title"><a href="../../index.html" style="color: inherit; text-decoration: none; font-family: inherit;">pod bay doors</a></h1>
@@ -159,6 +160,7 @@ def generate_root_index(article_info_list):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>pod bay doors</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pygments.css">
   <style>
     ul {{
     list-style: none;
