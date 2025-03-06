@@ -121,11 +121,9 @@ def convert_article(article_dir):
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 class="site-title"><a href="../../index.html" style="color: inherit; text-decoration: none; font-family: inherit;">pod bay doors</a></h1>
-    <hr style="border: none; border-top: 1px solid lightgrey;">
-    {html_body}
-  </div>
+  <h1 class="site-title"><a href="../../index.html" style="color: inherit; text-decoration: none; font-family: inherit;">pod bay doors</a></h1>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
+{html_body}
 </body>
 </html>
 """
@@ -179,13 +177,10 @@ def generate_root_index(article_info_list):
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="site-title">pod bay doors</h1>
-    <hr style="border: none; border-top: 1px solid lightgrey;">
-    <ul class = "posts">
-      {list_items}  
-    </ul>
-  </div>
+  <h1 class="site-title">pod bay doors</h1>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
+  <ul class = "posts">
+{list_items}  </ul>
 </body>
 </html>
 """
