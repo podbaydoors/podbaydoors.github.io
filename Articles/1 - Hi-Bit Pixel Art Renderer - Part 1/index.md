@@ -1,22 +1,22 @@
-#Writing a Hi-Bit pixel art renderer - Part 1
+#Writing a Hi-Bit Pixel Art Renderer - Part 1
 
-In this series of articles I'm going to cover the development of my hi-bit pixel art renderer. By hi-bit I mean a 2d rendering system that has a retro, pixel art aesthetic but doesn't constrain itself to the limitations of retro hardware. This is in contrast to games such as Shovel Knight that aim to faithfully adhere to the limitations of a specific platform. Hi-bit games will often use a wider color pallette or use shader techniques that wouldn't have been possible on retro hardware.
+In this series of articles, I'm going to cover the development of my hi-bit pixel art renderer. By hi-bit I mean a 2d rendering system that has a retro, pixel art aesthetic but doesn't constrain itself to the limitations of retro hardware. This is in contrast to games like Shovel Knight that aim to adhere to the limitations of a specific platform. Hi-bit games will often use a wider color palette or shader techniques that wouldn't have been possible on retro hardware.
 
-The renderer was built using c++ and opengl. But the techniques I discuss here should be usable using any api or 3rd party engine.
+The renderer was built using C++ and OpenGL. But the techniques I discuss here should be usable using any API or 3rd party engine.
 
 <figure>
     <img title="" src="assets/omega.png" alt="" data-align="center">
   	<figcaption><small>Omega by pieceoftoast</small></figcaption>
 </figure>
 
-This image was created by Deviant Art user pieceoftoast (link). This is artwork, not a screen shot from a game. I really liked how this concept image evoked older games like those made by Sierra On-Line or Lucas Arts but also had a lot of interesting modern flourishes such as glowing textures, normal mapping and smooth lighting. I thought it would be fun to make a renderer that could replicate all these features in-engine. For example, the glow around the lights should not be baked into the art assets but instead be drawn by the rendering system.
+This image was created by Deviant Art user pieceoftoast (link). This is artwork, not a screenshot from a game. I really liked how this concept image evoked older games like those made by Sierra On-Line or Lucas Arts but also had a lot of interesting modern flourishes such as glowing textures, normal mapping, and smooth lighting. I thought it would be fun to make a renderer that could replicate all these features in-engine. For example, the glow around the lights should not be baked into the art assets but instead be drawn by the rendering system.
 
-During game development preproduction, concept artists often create images that illustrate how all the rendering features should look in the final game. This process is usually a back-and-forth collaboration between the rendering and art teams. Artists will start with a high level image or description of how they want the game to look. Programmers will then suggest some rendering techniques that might achieve this look. Back and forth this goes until a concept is agreed upon. Of course, like everything in game development, this plan is likely to change a fair bit during production. But at least you have a well though through starting plan. We often called these images "game in a frame". To me this image seemed like the perfect "game in a frame" to start development. 
+During game development preproduction, concept artists often create images that illustrate how all the rendering features should look in the final game. This process is usually a back-and-forth collaboration between the rendering and art teams. Artists will start with a high-level image or description of how they want the game to look. Programmers will then suggest some rendering techniques that might achieve this look. Back and forth this goes until a concept is agreed upon. Of course, like everything in game development, this plan is likely to change a fair bit during production. But at least you have a well-thought-through starting plan. We often called these images "game in a frame". To me, this image seemed like the perfect "game in a frame" to start development. 
 
 My first step was to identify all the rendering features from the concept image that I'd need to support in-engine. Here's what I came up with:
 
 - Consistent texel size. Texels are always the same size on screen. 
-- Arbitrary number of layers. I counted at least 8 layers in the scene. Some layers should have parallax with respect to each other. For other sets of layers we will not want them to parallax.
+- Arbitrary number of layers. I counted at least 8 layers in the scene. Some layers should have parallax with respect to each other. For other sets of layers, we will not want them to parallax.
 - Normal mapped dynamic lighting. Look at the tile edges near the lit signs and notice how the tile edges are lit up.
 - Dynamic cast shadows
 - Glowing textures
@@ -24,12 +24,12 @@ My first step was to identify all the rendering features from the concept image 
 
 I also added a goal that wasn't necessarily informed by the concept image.
 
-- Pixel perfect texture sampling. Screen pixels that overlap multiple texels (from the same tile or adjacent tiles) should perfectly blend the percentage contribution from each texel.
+- Pixel-perfect texture sampling. Screen pixels that overlap multiple texels (from the same tile or adjacent tiles) should perfectly blend the percentage contribution from each texel.
 
 ##Layout of the scene
 
 ###Approach 1 - Orthographic 2D layers
-The first thing I needed to figure out was how to layout objects in the scene. The objects of the scene being textured quads. My first approach was to copy how 2D games would have done it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. Objects can then be placed in layers. At render time, I drew each layer back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I'd scale the translation by the parallax amount. So for a layer with parallax scalar equal to 1, the layer would track the camera exactly. For a layer with parallax scalar set to .5, the objects in that layer would move at half the speed. 
+The first thing I needed to figure out was how to lay out objects in the scene. The objects of the scene are textured quads. My first approach was to copy how 2D games would have done it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. Objects can then be placed in layers. At render time, I drew each layer back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I'd scale the translation by the parallax amount. So for a layer with a parallax scalar equal to 1, the layer would track the camera exactly. For a layer with a parallax scalar set to .5, the objects in that layer would move at half the speed. 
 
 <figure>
     <img title="" src="assets/LayerDiagram.jpg" alt="" data-align="center" width="500">
@@ -39,16 +39,16 @@ The first thing I needed to figure out was how to layout objects in the scene. T
 This approach quickly proved limiting and cumbersome. Scene management, such as selecting and moving objects, was complicated by the presence of scene layers. Moving an object farther back in the scene required moving the object to another layer. If that layer didn't have the parallax amount I wanted, I'd have to create another layer. I realized that if I wanted more than a few layers in the scene then I needed a different approach.
 
 ###Approach 2 - 3D perspective with scale
-For my next approach, I extended the renderer to 3D. I removed the concept of layers and gave each object a z position. The scene was rendered using a perspective projection matrix which gave the desired parallax effect when the camera moved in the xy plane. But by using a perpective projection objects farther in the background were drawn smaller on screen. This broke the goal of having a consistent texel size. To fix this, I calculated a xy scale for each object depending on its distance from the camera. 
+For my next approach, I extended the renderer to 3D. I removed the concept of layers and gave each object a z position. The scene was rendered using a perspective projection matrix which gave the desired parallax effect when the camera moved in the xy plane. But by using a perspective projection objects farther in the background were drawn smaller on screen. This broke the goal of having a consistent texel size. To fix this, I calculated an xy scale for each object depending on its distance from the camera. 
 
 <figure>
     <img title="" src="assets/ScaledPerspectiveDiagram.jpg" alt="" data-align="center" width="500">
   	<figcaption><small>Textures scaled to maintain consistent texel size</small></figcaption>
 </figure>
 
-With this approach the camera can move in x and y but must be fixed in z. Moving in z will cause closer objects to scale up/down faster than objects farther away. This will break the consitent texel size goal.
+With this approach, the camera can move in x and y but must be fixed in z. Moving in z will cause closer objects to scale up/down faster than objects farther away. This will break the consistent texel size goal.
 
-Here is how I calculated the camera distance. I picked z==0 as the location at which object scale would equal 1.
+Here is how I calculated the camera distance. I picked z==0 as the location at which the object scale would equal 1.
 
 ```
 //Code that runs at renderer startup
@@ -63,11 +63,11 @@ float GetTexelScaleAtZ( float z )
 }
 ```
 
-When placing or moving an object, I'd set the scale by calling the function GetTexelScaleAtZ. This technique worked well and I was mostly satisfied with it. There was a bit of code complexity in managing object scale (I recall moving multiple objects at different z-depths was a tricky problem to get right). But I proceeded with development using this approach for quite a while. It wasn't until I began implementing shadows that I started to rethink it. Basically, if we project a shadow onto an object farther in the distance, the shadow texels will be smaller than the texels of the surface they are projected onto. We can use nearest sampling to make them the correct size but then we are downsampling our pixel art. And downsampled pixel art never looks good.
+When placing or moving an object, I'd set the scale by calling the function GetTexelScaleAtZ. This technique worked well and I was mostly satisfied with it. There was a bit of code complexity in managing object scale (I recall moving multiple objects at different z-depths was a tricky problem to get right). However, I proceeded with development using this approach for quite a while. It wasn't until I began implementing shadows that I started to rethink it. Basically, if we project a shadow onto an object farther in the distance, the shadow texels will be smaller than the texels of the surface they are projected onto. We can use nearest sampling to make them the correct size but then we are downsampling our pixel art. And downsampled pixel art never looks good.
 
 ###Approach 3 - Skewed orthographic
 
-To make the shadows look good I knew I needed to go back to using an orthographic projection with no object scaling. But with a standard orthographic projection there is no parallax. I then realized I could get parallax by applying a skew transformation to the view matrix. The skew transformation would translate objecs in the x&y direction proportional to their z position. Here's how I did it.
+To make the shadows look good I knew I needed to go back to using an orthographic projection with no object scaling. But with a standard orthographic projection there is no parallax. I then realized I could get parallax by applying a skew transformation to the view matrix. The skew transformation would translate objects in the x&y direction proportional to their z position. Here's how I did it.
 
 -Pick a world position 
 
