@@ -11,27 +11,44 @@
   <link rel="stylesheet" href="pygments.css">
   <style>
     ul {
-    list-style: none;
-    padding: 0;  /* Optional: remove default padding */
+      list-style: none;
+      padding: 0;
     }
     ul li a {
       display: block;
-      padding: 10px 0; /* Adjust vertical padding as needed */
+      padding: 10px 0;
     }
     ul li a:hover {
       background-color: rgba(200, 200, 200, 0.2);
       border-bottom: none;
       text-decoration: none;
-      color: inherit; /* Keeps the text color the same as the non-hovered state */
+      color: inherit;
+    }
+    /* Program screenshot thumbnail styles:
+       Each link will be in a fixed-size container ensuring uniform appearance */
+    .program-thumb {
+      display: inline-block;
+      width: 250px;
+      height: 250px;
+      overflow: hidden;
+    }
+    .program-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
   <h1 class="site-title">pod bay doors</h1>
   <hr style="border: none; border-top: 1px solid lightgrey;">
-  <ul class = "posts">
-  <li class = "post"><a href="Articles\1 - Hi-Bit Pixel Art Renderer - Part 1\index.html">Hi-Bit Pixel Art Renderer - Part 1</a></li>
-  <li class = "post"><a href="Articles\2 - Hi-Bit Pixel Art Renderer - Part 2\index.html">Hi-Bit Pixel Art Renderer - Part 2</a></li>
+  <ul class="posts">
+  <li class="post"><a href="Programs\1 - Omega\index.html" class="program-thumb"><img src="Programs\1 - Omega\screenshot.jpg" alt="Omega"></a></li>
+  </ul>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
+  <ul class="posts">
+  <li class="post"><a href="Articles\1 - Hi-Bit Pixel Art Renderer - Part 1\index.html">Hi-Bit Pixel Art Renderer - Part 1</a></li>
+  <li class="post"><a href="Articles\2 - Hi-Bit Pixel Art Renderer - Part 2\index.html">Hi-Bit Pixel Art Renderer - Part 2</a></li>
   </ul>
 </body>
 </html>
