@@ -241,3 +241,7 @@ pre > code {
   white-space: pre;
   font-size: 1em;
 }
+
+figure img {
+  margin-bottom: 1rem;
+}
