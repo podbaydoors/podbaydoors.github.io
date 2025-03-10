@@ -211,7 +211,7 @@ def convert_about():
     Convert the about.md file (located in the 'about' subdirectory) into an HTML page.
     The generated HTML (index.html) is saved in the same subdirectory, using the same styling as articles.
     """
-    about_dir = "about"
+    about_dir = "About"
     about_md = os.path.join(about_dir, "index.md")
     if not os.path.exists(about_md):
         print("Warning: index.md not found in the 'about' directory.")
