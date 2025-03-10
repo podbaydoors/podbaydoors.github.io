@@ -217,16 +217,25 @@ def generate_main_index(article_info_list, program_info_list):
     }}
     /* Program screenshot thumbnail styles:
        Each link will be in a fixed-size container ensuring uniform appearance */
+    /* Program screenshot thumbnail styles */
     .program-thumb {{
       display: inline-block;
-      width: 250px;
-      height: 250px;
+      width: 200px;
+      height: 200px;
       overflow: hidden;
+      /*padding: 0;*/
+      /*margin: 0;*/
+      /*line-height: 0;*/ /* Removes potential space from line height */
+      font-size: 0; /* Removes potential space from font size */
     }}
+
     .program-thumb img {{
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      /*object-fit: cover;*/
+      /*display: block;*/ /* Removes potential whitespace below image */
+      /*padding: 0;*/
+      /*margin: 0;*/
     }}
   </style>
 </head>

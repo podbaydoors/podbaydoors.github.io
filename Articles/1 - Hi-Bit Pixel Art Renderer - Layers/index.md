@@ -125,11 +125,6 @@ Besides solving the shadowing problems, this solution had some other nice benefi
 
 Something cool I discovered was that a skew matrix allows you to have parallax in a single axis only. For instance, you could have a game where there is parallax when the camera moves in the x direction but not in the y direction. You'd just need to change your skew matrix construction so that the infinity point always has the same y coordinate as the camera. This is something I'd like to experiment with in the future.
 
-
-
-
-
-
 <!---
 <video autoplay loop muted playsinline>
   <source src="assets/omega.mp4" type="video/mp4">
