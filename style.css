@@ -174,9 +174,15 @@ header a + a {
     margin: 0;
     list-style: none;
 }
+
+.posts .post {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .posts .post a {
     display: flex;
-    padding: 0.5em 0;
+    padding: 0em 0;
     color: black;
 }
 .posts .post a:hover, .posts .post a:focus, .posts .post a:active {
