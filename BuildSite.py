@@ -206,6 +206,43 @@ def convert_program(program_dir):
     rel_screenshot = os.path.relpath(screenshot_path, start=os.getcwd())
     return (program_number, program_title, rel_screenshot, rel_link)
 
+def convert_about():
+    """
+    Convert the about.md file (located in the 'about' subdirectory) into an HTML page.
+    The generated HTML (index.html) is saved in the same subdirectory, using the same styling as articles.
+    """
+    about_dir = "about"
+    about_md = os.path.join(about_dir, "index.md")
+    if not os.path.exists(about_md):
+        print("Warning: index.md not found in the 'about' directory.")
+        return
+    with open(about_md, "r", encoding="utf-8") as f:
+        md_content = f.read()
+    md_content = fix_asset_paths_in_markdown(md_content, about_dir)
+    html_body = markdown.markdown(md_content, extensions=["fenced_code", "codehilite"])
+    page_title = "About"
+    full_html = f"""<!DOCTYPE html>
+<html>
+<head>
+  {SITE_TITLE_FONT}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{page_title}</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../pygments.css">
+</head>
+<body>
+  <h1 class="site-title"><a href="../index.html" style="color: inherit; text-decoration: none; font-family: inherit;">pod bay doors</a></h1>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
+{html_body}
+</body>
+</html>
+"""
+    output_path = os.path.join(about_dir, "index.html")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(full_html)
+    print("Generated about/index.html")
+
 def generate_main_index(article_info_list, program_info_list):
     """
     Generate the root index.html that lists all programs (with image links) first and then articles (text links)
@@ -272,7 +309,10 @@ def generate_main_index(article_info_list, program_info_list):
   </style>
 </head>
 <body>
-  <h1 class="site-title">pod bay doors</h1>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 class="site-title" style="margin: 0;">pod bay doors</h1>
+    <a href="about/index.html" class="site-title">about</a>
+  </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
 {program_list_items}  </ul>
@@ -287,6 +327,9 @@ def generate_main_index(article_info_list, program_info_list):
     print("Generated root index.html")
 
 def main():
+    # Convert about/about.md if it exists.
+    convert_about()
+
     article_info = []
     articles_dir = "Articles"
     if os.path.isdir(articles_dir):
