@@ -2,10 +2,11 @@
 import os
 import re
 import markdown
+from datetime import datetime
 
-SITE_TITLE_FONT =  """<link rel='preconnect' href='https://fonts.googleapis.com'>
-                      <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-                      <link href='https://fonts.googleapis.com/css2?family=Gruppo&display=swap' rel='stylesheet'>"""
+SITE_TITLE_FONT = """<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Gruppo&display=swap' rel='stylesheet'>"""
 
 def get_correct_case_path(rel_path, base_dir):
     """
@@ -72,7 +73,10 @@ def fix_asset_paths_in_markdown(md_content, base_dir):
 def convert_article(article_dir):
     """
     Convert an article page (from index.md) into index.html.
-    Returns a tuple (article_number, article_title, relative_link) for use in the main index.
+    Returns a tuple (sortable_date, display_date, article_title, relative_link) for use in the main index.
+    
+    Expected directory name format: "YY MM DD - Article Title"
+    For example, "25 03 9 - Article Title" corresponds to Mar 9 2025.
     """
     md_path = os.path.join(article_dir, "index.md")
     if not os.path.exists(md_path):
@@ -85,15 +89,44 @@ def convert_article(article_dir):
     md_content = fix_asset_paths_in_markdown(md_content, article_dir)
     html_body = markdown.markdown(md_content, extensions=["fenced_code", "codehilite"])
 
-    # Extract article number and title from the directory name ("Number - Article Name").
+    # Try to extract the date and title from the directory name.
+    # Expected format: "YY MM DD - Article Title" (e.g. "25 03 9 - Article Title")
     dir_name = os.path.basename(article_dir)
-    match = re.match(r"(\d+)\s*-\s*(.+)", dir_name)
+    match = re.match(r"(\d{2})\s+(\d{2})\s+(\d{1,2})\s*-\s*(.+)", dir_name)
     if match:
-        article_number = int(match.group(1))
-        article_title = match.group(2)
+        year_str, month_str, day_str, article_title = match.groups()
+        try:
+            full_year = 2000 + int(year_str)
+            dt = datetime(full_year, int(month_str), int(day_str))
+            sortable_date = dt.strftime("%Y-%m-%d")
+            # Format display date as "MMM D YYYY" (e.g. "Mar 9 2025")
+            display_date = dt.strftime("%b %d %Y").replace(" 0", " ")
+        except Exception:
+            sortable_date = "0000-00-00"
+            display_date = "0000-00-00"
     else:
-        article_number = 0
-        article_title = dir_name
+        # Fallback: try splitting by " - " and then process the date part.
+        parts = dir_name.split(" - ", 1)
+        if len(parts) == 2:
+            date_part, article_title = parts
+            try:
+                date_parts = date_part.split()
+                if len(date_parts) >= 3:
+                    year_str, month_str, day_str = date_parts[:3]
+                    full_year = 2000 + int(year_str)
+                    dt = datetime(full_year, int(month_str), int(day_str))
+                    sortable_date = dt.strftime("%Y-%m-%d")
+                    display_date = dt.strftime("%b %d %Y").replace(" 0", " ")
+                else:
+                    sortable_date = "0000-00-00"
+                    display_date = "0000-00-00"
+            except Exception:
+                sortable_date = "0000-00-00"
+                display_date = "0000-00-00"
+        else:
+            sortable_date = "0000-00-00"
+            display_date = "0000-00-00"
+            article_title = dir_name
 
     full_html = f"""<!DOCTYPE html>
 <html>
@@ -117,7 +150,7 @@ def convert_article(article_dir):
         f.write(full_html)
 
     rel_link = os.path.relpath(output_path, start=os.getcwd())
-    return (article_number, article_title, rel_link)
+    return (sortable_date, display_date, article_title, rel_link)
 
 def convert_program(program_dir):
     """
@@ -176,9 +209,9 @@ def convert_program(program_dir):
 def generate_main_index(article_info_list, program_info_list):
     """
     Generate the root index.html that lists all programs (with image links) first and then articles (text links)
-    in two separate sections. Both lists are ordered in increasing number order.
-    The program screenshots are displayed as thumbnails in fixed-size containers.
+    in two separate sections. Articles are sorted by date.
     """
+    # Sort articles by the sortable date (YYYY-MM-DD)
     article_info_list.sort(key=lambda x: x[0])
     program_info_list.sort(key=lambda x: x[0])
     program_list_items = ""
@@ -188,8 +221,12 @@ def generate_main_index(article_info_list, program_info_list):
             f'<img src="{screenshot_link}" alt="{title}"></a></li>\n'
         )
     article_list_items = ""
-    for number, title, link in article_info_list:
-        article_list_items += f'  <li class="post"><a href="{link}">{title}</a></li>\n'
+    for sortable_date, display_date, title, link in article_info_list:
+        article_list_items += (
+            f'  <li class="post">'
+            f'<small style="font-size: 0.7em; color: #777; display:block; margin-bottom:0px;">{display_date}</small>'
+            f'<a href="{link}">{title}</a></li>\n'
+        )
 
     index_html = f"""<!DOCTYPE html>
 <html>
@@ -215,27 +252,16 @@ def generate_main_index(article_info_list, program_info_list):
       text-decoration: none;
       color: inherit;
     }}
-    /* Program screenshot thumbnail styles:
-       Each link will be in a fixed-size container ensuring uniform appearance */
-    /* Program screenshot thumbnail styles */
     .program-thumb {{
       display: inline-block;
       width: 200px;
       height: 200px;
       overflow: hidden;
-      /*padding: 0;*/
-      /*margin: 0;*/
-      /*line-height: 0;*/ /* Removes potential space from line height */
-      font-size: 0; /* Removes potential space from font size */
+      font-size: 0;
     }}
-
     .program-thumb img {{
       width: 100%;
       height: 100%;
-      /*object-fit: cover;*/
-      /*display: block;*/ /* Removes potential whitespace below image */
-      /*padding: 0;*/
-      /*margin: 0;*/
     }}
   </style>
 </head>
