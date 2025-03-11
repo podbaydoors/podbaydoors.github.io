@@ -311,7 +311,7 @@ def generate_main_index(article_info_list, program_info_list):
 <body>
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <h1 class="site-title" style="margin: 0;">pod bay doors</h1>
-    <h1 class="site-title"><a href="About/index.html">about</a></h1>
+    <!--<h1 class="site-title"><a href="About/index.html">about</a></h1>-->
   </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
