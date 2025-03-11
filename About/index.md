@@ -1,7 +1,7 @@
 
 <figure>
     <img title="" src="donkykong.jpg" alt="" data-align="center" width="400">
-  	<figcaption><small>As a chlid I was more interested in games than spelling</small></figcaption>
+  	<figcaption><small>As a child I was more interested in games than spelling</small></figcaption>
 </figure>
 
 #About Me
