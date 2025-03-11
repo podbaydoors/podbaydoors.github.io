@@ -217,6 +217,16 @@ img, video {
     text-decoration: none; /* Ensures that links don't get underlined */
 }
 
+.site-title a {
+	color: inherit; 
+	text-decoration: none; 
+	font-family: inherit;
+}
+
+.site-title a:hover {
+  color: #fa6432;
+}
+
 .container {
     max-width: 42em;
     margin: 0 auto;
