@@ -300,18 +300,16 @@ def generate_main_index(article_info_list, program_info_list):
       width: 100%;
       height: 100%;
     }}
-    
     .program-thumb:hover img {{
       filter: brightness(0.8);
       transition: filter 0.3s ease;
     }}
-
   </style>
 </head>
 <body>
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <h1 class="site-title" style="margin: 0;">pod bay doors</h1>
-    <!--<h1 class="site-title"><a href="About/index.html">about</a></h1>-->
+    <h1 class="site-title" style="margin: 0;"><a href="About/index.html">about</a></h1>
   </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">

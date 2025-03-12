@@ -6,8 +6,8 @@
 
 #About Me
 
-Computer games have fascinated me for as long as I can remember. Orson Welles once likened moviemaking to "the biggest electric train set a boy ever had." But they didn't have video games back then. 
+Coding computer games has fascinated me for as long as I can remember. Orson Welles once likened moviemaking to "the biggest electric train set a boy ever had." But they didn't have video games back then. 
 
 I've been fortunate to work in the games industry for almost 30 years.
 
-This is my personal site where I discuss my hobby projects.
+This is my personal site where I share my hobby projects.
