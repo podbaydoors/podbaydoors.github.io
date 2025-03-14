@@ -139,9 +139,11 @@ def convert_article(article_dir):
   <link rel="stylesheet" href="../../pygments.css">
 </head>
 <body>
-  <h1 class="site-title"><a href="../../index.html">pod bay doors</a></h1>
+  <div class="site-title">
+    <h1><a href="../../index.html">pod bay doors</a></h1>
+  </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
-{html_body}
+  {html_body}
 </body>
 </html>
 """
@@ -191,9 +193,11 @@ def convert_program(program_dir):
   <link rel="stylesheet" href="../../pygments.css">
 </head>
 <body>
-  <h1 class="site-title"><a href="../../index.html">pod bay doors</a></h1>
+  <div class="site-title">
+    <h1><a href="../../index.html">pod bay doors</a></h1>
+  </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
-{html_body}
+  {html_body}
 </body>
 </html>
 """
@@ -232,9 +236,11 @@ def convert_about():
   <link rel="stylesheet" href="../pygments.css">
 </head>
 <body>
-  <h1 class="site-title"><a href="../index.html">pod bay doors</a></h1>
+  <div class="site-title">
+    <h1><a href="../index.html">pod bay doors</a></h1>
+  </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
-{html_body}
+  {html_body}
 </body>
 </html>
 """
@@ -307,16 +313,18 @@ def generate_main_index(article_info_list, program_info_list):
   </style>
 </head>
 <body>
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h1 class="site-title" style="margin: 0;">pod bay doors</h1>
-    <h1 class="site-title" style="margin: 0;"><a href="About/index.html">about</a></h1>
+  <div class="site-title">
+    <h1>pod bay doors</h1>
+    <h1><a href="About/index.html">about</a></h1>
   </div>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
-{program_list_items}  </ul>
+    {program_list_items}  
+  </ul>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
-{article_list_items}  </ul>
+    {article_list_items}  
+  </ul>
 </body>
 </html>
 """
