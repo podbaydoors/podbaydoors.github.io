@@ -317,10 +317,12 @@ def generate_main_index(article_info_list, program_info_list):
     <h1>pod bay doors</h1>
     <h1><a href="About/index.html">about</a></h1>
   </div>
+  <h3 style="margin-bottom: .3rem;">Programs</h3>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
     {program_list_items}  
   </ul>
+  <h3 style="margin-bottom: .3rem;">Articles</h3>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
     {article_list_items}  

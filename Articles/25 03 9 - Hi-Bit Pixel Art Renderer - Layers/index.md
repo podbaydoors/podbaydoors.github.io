@@ -31,7 +31,7 @@ I also knew that I wanted my renderer to implement pixel-perfect texture samplin
 
 I'll discuss the implementation of each of these features in future articles. For the remainder of this article, I'll explain how I supported layers in the renderer.
 
-###Approach 1 - 2D Orthographic layers
+###Approach 1 - 2D layers
 My initial approach was to copy how 2D games did it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. Each layer contained tiles. Tiles are just screen-facing quads with a texture applied to them. At render time, I drew the layers back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I'd scale the translation by the parallax amount. So for a layer with a parallax scalar equal to 1, the layer would track the camera exactly. For a layer with a parallax scalar set to .5, the tiles in that layer would move at half the speed. 
 
 <figure>
