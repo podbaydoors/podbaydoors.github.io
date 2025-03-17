@@ -214,21 +214,36 @@ img, video {
     font-style: normal;
     font-size: 1.2rem;
     color: #ffffff;
-    text-decoration: none; /* Ensures that links don't get underlined */
+    text-decoration: none;
     margin-top: 0;
     margin-bottom: 0;
-	display: flex; 
-	justify-content: space-between; 
-	align-items: center;
-	background-color: #404040;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    position: relative; /* Needed for the pseudo-element positioning */
+    /* Remove the background-color property from here */
 }
+
+.site-title::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    background-color: #404040;
+    margin-left: -50vw;  /* Extends the background to the left edge */
+    margin-right: -50vw; /* Extends the background to the right edge */
+    z-index: -1;         /* Places the background behind the text */
+}
+
 
 .site-title h1 {
 	color: inherit; 
 	text-decoration: none; 
 	font: inherit;
-	margin-left: .1rem;
-	margin-right: .1rem;
+	margin-left: 0rem;
+	margin-right: 0rem;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
