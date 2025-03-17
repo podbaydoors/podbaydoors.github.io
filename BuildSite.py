@@ -143,6 +143,7 @@ def convert_article(article_dir):
     <h1><a href="../../index.html">pod bay doors</a></h1>
   </div>
   {html_body}
+  <hr class="article-end-line">
 </body>
 </html>
 """
@@ -196,6 +197,7 @@ def convert_program(program_dir):
     <h1><a href="../../index.html">pod bay doors</a></h1>
   </div>
   {html_body}
+  <hr class="article-end-line">
 </body>
 </html>
 """
@@ -238,6 +240,7 @@ def convert_about():
     <h1><a href="../index.html">pod bay doors</a></h1>
   </div>
   {html_body}
+  <hr class="article-end-line">
 </body>
 </html>
 """

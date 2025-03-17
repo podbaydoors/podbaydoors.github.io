@@ -295,3 +295,10 @@ pre > code {
 figure img {
   margin-bottom: 1rem;
 }
+
+.article-end-line {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border: none;
+  border-top: 1px solid grey;
+}
