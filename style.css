@@ -201,6 +201,10 @@ header a + a {
 /* My additions */
 /* ------------------------------------------------------------------ */
 
+body {
+  padding-bottom: 3rem;
+}
+
 img, video {
   height: auto;
   max-width: 100%;

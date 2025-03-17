@@ -125,6 +125,10 @@ Besides solving the shadowing problems, this solution had some other nice benefi
 
 Something cool I discovered was that a skew matrix allows you to have parallax in a single axis only. For instance, you could have a game where there is parallax when the camera moves in the x direction but not in the y direction. You'd just need to change your skew matrix construction so that the infinity point always has the same y coordinate as the camera. This is something I'd like to experiment with in the future.
 
+###Non-parallax layers
+
+Sometimes we don't want layers to parallax with each other. For example, imagine you have a wall tile and you want to place a painting on it. You probably don't want the painting to parallax with the wall. To support this I just added a layer property to each tile. At render time, the tiles were already sorted by z depth. So I just extended the sort function to sort by z and then by layer.
+
 <!---
 <video autoplay loop muted playsinline>
   <source src="assets/omega.mp4" type="video/mp4">
