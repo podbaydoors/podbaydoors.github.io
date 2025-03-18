@@ -297,8 +297,8 @@ def generate_main_index(article_info_list, program_info_list):
     }}
     .program-thumb {{
       display: inline-block;
-      width: 300px;
-      height: 150px;
+      width: 14rem;
+      height: 7rem;
       overflow: hidden;
       font-size: 0;
     }}
