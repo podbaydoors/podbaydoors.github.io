@@ -293,7 +293,6 @@ def generate_main_index(article_info_list, program_info_list):
       padding: 10px 0;
     }}
     ul li a:hover {{
-      background-color: rgba(200, 200, 200, 0.2);
       border-bottom: none;
       text-decoration: none;
       color: inherit;

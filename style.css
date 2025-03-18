@@ -190,7 +190,6 @@ header a + a {
 }
 .posts .post a:hover, .posts .post a:focus, .posts .post a:active {
     text-decoration: none;
-    background: rgba(200, 200, 200, 0.2);
 }
 .posts .post date {
     font-family: monospace, monospace;
@@ -328,6 +327,5 @@ figure img {
 
 .post:hover .program-name {
   text-decoration: none;
-  background-color: rgba(200, 200, 200, 0.2);
 }
 
