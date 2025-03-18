@@ -309,10 +309,14 @@ def generate_main_index(article_info_list, program_info_list):
       width: 100%;
       height: 100%;
     }}
-    .program-thumb:hover img {{
-      filter: brightness(0.8);
-      transition: filter 0.3s ease;
+    .post:hover .program-thumb img {{
+        filter: brightness(0.8);
     }}
+    .post:hover .program-name {{
+        text-decoration: none;
+        background-color: rgba(200, 200, 200, 0.2);
+    }}
+
   </style>
 </head>
 <body>
