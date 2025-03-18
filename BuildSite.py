@@ -260,8 +260,11 @@ def generate_main_index(article_info_list, program_info_list):
     program_list_items = ""
     for number, title, screenshot_link, page_link in program_info_list:
         program_list_items += (
-            f'  <li class="post"><a href="{page_link}" class="program-thumb">'
-            f'<img src="{screenshot_link}" alt="{title}"></a></li>\n'
+            f'  <li class="post">'
+            f'<a href="{page_link}" class="program-thumb">'
+            f'<img src="{screenshot_link}" alt="{title}"></a>\n'
+            f'<a href="{page_link}" class="program-name">{title}</a>'
+            f'</li>\n'
         )
     article_list_items = ""
     for sortable_date, display_date, title, link in article_info_list:
