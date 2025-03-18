@@ -298,25 +298,6 @@ def generate_main_index(article_info_list, program_info_list):
       text-decoration: none;
       color: inherit;
     }}
-    .program-thumb {{
-      display: inline-block;
-      width: 14rem;
-      height: 7rem;
-      overflow: hidden;
-      font-size: 0;
-    }}
-    .program-thumb img {{
-      width: 100%;
-      height: 100%;
-    }}
-    .post:hover .program-thumb img {{
-        filter: brightness(0.8);
-    }}
-    .post:hover .program-name {{
-        text-decoration: none;
-        background-color: rgba(200, 200, 200, 0.2);
-    }}
-
   </style>
 </head>
 <body>
