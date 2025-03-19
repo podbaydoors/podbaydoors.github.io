@@ -307,7 +307,6 @@ figure img {
 }
 
 .program-entry {
-  align-items: top; 
   display: inline-flex;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
@@ -326,7 +325,7 @@ figure img {
   display: inline-block;
   font-size: 0; 
   width: 8rem;
-  height: 8rem;
+  aspect-ratio: 1 / 1;
   padding: 0;
   margin-right: 1rem;
   overflow: hidden;
