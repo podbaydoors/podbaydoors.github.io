@@ -181,7 +181,7 @@ header a + a {
 }
 
 .posts .post a {
-    display: flex;
+    display: inline-flex;
     padding: 0em 0;
     color: black;
 	text-decoration: underline;
@@ -308,7 +308,7 @@ figure img {
 
 .program-entry {
   align-items: top; 
-  display: flex;
+  display: inline-flex;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
 }
