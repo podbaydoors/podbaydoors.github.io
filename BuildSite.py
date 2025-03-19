@@ -260,9 +260,9 @@ def generate_main_index(article_info_list, program_info_list):
     program_list_items = ""
     for number, title, screenshot_link, page_link in program_info_list:
         program_list_items += (
-            f'  <li class="post">'
+            f'  <li class="post program-entry">'
             f'<a href="{page_link}" class="program-thumb">'
-            f'<img src="{screenshot_link}" alt="{title}"></a>\n'
+            f'<img src="{screenshot_link}" alt="{title}"></a>'
             f'<a href="{page_link}" class="program-name">{title}</a>'
             f'</li>\n'
         )
@@ -309,7 +309,7 @@ def generate_main_index(article_info_list, program_info_list):
   <ul class="posts">
     {article_list_items}  
   </ul>
-  <h2 style="margin-bottom: .3rem;">Programs</h3>
+  <h2 style="margin-bottom: .3rem;">Apps</h3>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
     {program_list_items}  
