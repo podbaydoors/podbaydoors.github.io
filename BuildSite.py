@@ -255,7 +255,7 @@ def generate_main_index(article_info_list, program_info_list):
     in two separate sections. Articles are sorted by date.
     """
     # Sort articles by the sortable date (YYYY-MM-DD)
-    article_info_list.sort(key=lambda x: x[0])
+    article_info_list.sort(key=lambda x: x[0], reverse=True)
     program_info_list.sort(key=lambda x: x[0])
     program_list_items = ""
     for number, title, screenshot_link, page_link in program_info_list:
@@ -304,15 +304,15 @@ def generate_main_index(article_info_list, program_info_list):
     <h1>pod bay doors</h1>
     <h1><a href="About/index.html">about</a></h1>
   </div>
-  <h3 style="margin-bottom: .3rem;">Programs</h3>
-  <hr style="border: none; border-top: 1px solid lightgrey;">
-  <ul class="posts">
-    {program_list_items}  
-  </ul>
-  <h3 style="margin-bottom: .3rem;">Articles</h3>
+  <h2 style="margin-bottom: .3rem;">Articles</h3>
   <hr style="border: none; border-top: 1px solid lightgrey;">
   <ul class="posts">
     {article_list_items}  
+  </ul>
+  <h2 style="margin-bottom: .3rem;">Programs</h3>
+  <hr style="border: none; border-top: 1px solid lightgrey;">
+  <ul class="posts">
+    {program_list_items}  
   </ul>
 </body>
 </html>
