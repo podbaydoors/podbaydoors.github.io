@@ -133,9 +133,9 @@ Sometimes we don't want layers to parallax with each other. For example, imagine
 <video
   autoplay loop muted playsinline
   id="video-thumb"
-  src="assets/omega.mp4"
+  src="Assets/Omega.mp4"
   style="cursor: pointer;"
-  data-full="assets/omega.mp4">
+  data-full="Assets/Omega.mp4">
 </video>
 
 <!-- 2) The hidden modal container -->
