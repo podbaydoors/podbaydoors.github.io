@@ -1,17 +1,17 @@
 #Writing a Hi-Bit Pixel Art Renderer - Layers
 
-This is the first in a series of articles covering the development of my hi-bit pixel art renderer. By hi-bit I mean a 2D rendering system with a retro, pixel art aesthetic but doesn't constrain itself to the limitations of retro hardware. This is in contrast to games like Shovel Knight that aim to adhere to the limitations of a specific platform. Hi-bit games will often use rendering techniques and features that wouldn't have been possible on older hardware.
-
-Note: The renderer was built using C++ and OpenGL, but the techniques I discuss here should apply to any API or engine you are using.
-
 <figure>
     <img title="" src="assets/omega.png" alt="" data-align="center">
   	<figcaption><small>Figure 1 - Omega by pieceoftoast</small></figcaption>
 </figure>
 
-This image was created by Deviant Art user [pieceoftoast](https://www.deviantart.com/pieceoftoast). This is an art piece, not a screenshot from a game. I liked how this image evoked older games like those made by Sierra On-Line and Lucas Arts but also had a modern, updated feel to it. During game development, artists sometimes create images like this to illustrate how all the rendering features should look in the final game. We called these "game in a frame" concepts. To me, this image seemed like the perfect "game in a frame" to start development on my hi-bit renderer. 
+This image was created by Deviant Art user [pieceoftoast](https://www.deviantart.com/pieceoftoast). This is an art piece, not a screenshot from a game. I liked how this image evoked older games like those made by Sierra On-Line and Lucas Arts, but it also had an updated, modern feel. Sometimes this pixel art style is referred to as hi-bit. Hi-bit games have a retro, pixel art aesthetic but aren't constrained to the limitations of retro hardware. This is in contrast to games like Shovel Knight which try to adhere to the capabilities of a specific platform. 
 
-My first step was to identify all the rendering features from the concept image that I'd need to implement.
+I thought it would be a fun hobby project to write a pixel art renderer that could replicate this image in-engine. By in-engine I mean that things like lighting and glow would be implemented by the rendering system instead of being baked into the art.
+
+Note: The renderer was built using C++ and OpenGL, but the techniques I discuss here should apply to any API or engine you are using.
+
+My first step was to identify all the rendering features from the image that I'd need to implement.
 
 <figure>
     <img title="" src="assets/features.png" alt="" data-align="center">
@@ -39,7 +39,7 @@ My initial approach was to copy how 2D games did it before the advent of 3D rend
   	<figcaption><small>Figure 3 - Orthographic layers combined for the final image. The orange square is the orthographic camera bounds for that layer.</small></figcaption>
 </figure>
 
-This approach quickly proved cumbersome. Scene management, such as selecting and moving tiles, was complicated by the presence of layers. Moving a tile farther back in the scene required moving the tile to another layer. If that layer didn't have the parallax amount I wanted, I'd have to create another layer. For a game with just a few layers, this approach could be managable. But if I wanted more than a few then I needed a different approach.
+This approach quickly proved cumbersome. Scene management, such as selecting and moving tiles, was complicated by the presence of layers. Moving a tile farther back in the scene required moving the tile to another layer. If that layer didn't have the parallax amount I wanted, I'd have to create another layer. For a game with just a few layers, this approach could be manageable. But if I wanted more than a few then I needed a different approach.
 
 ###Approach 2 - 3D perspective with scaled tiles
 For my next approach, I extended the renderer to 3D. I removed the concept of layers and instead gave each tile a z coordinate. The scene was rendered using a perspective projection matrix which gave the desired parallax effect when the camera moved in the xy plane. But by using a perspective projection, tiles farther in the background were drawn smaller on the screen. This broke the goal of having a consistent texel size. To fix this, I calculated an xy scale for each tile depending on its distance from the camera. The farther a tile was from the camera, the more it would need to be scaled up to offset the size reduction caused by perspective.
@@ -64,7 +64,7 @@ float GetTexelScaleAtZ( float z )
 }
 ```
 
-I kept gCameraDist constant, the camera could move in x and y but was fixed in z. Moving in z would cause closer tiles to scale up/down faster than tiles farther away. This would break the consistent texel size goal. When placing a new tile or changing a tiles z coordinate, I'd calculate the new tile scale by calling the function GetTexelScaleAtZ. 
+I kept gCameraDist constant, the camera could move in x and y but was fixed in z. Moving in z would cause closer tiles to scale up/down faster than tiles farther away. This would break the consistent texel size goal. When placing a new tile or changing a tile's z coordinate, I'd calculate the new tile scale by calling the function GetTexelScaleAtZ. 
 
 This technique worked well and I was mostly satisfied with it. There was a bit of code complexity in managing the tile scale (moving multiple tiles at different z-depths was a tricky problem to get right). However, I proceeded with development using this approach for quite a while. It wasn't until I began implementing shadows that I started to rethink it. The problem was that if we did a parallel projection of a shadow onto a tile farther in the distance, the shadow texels were smaller than the texels of the tile they were projected onto. I could have used nearest sampling to make them the correct size, but then we'd be downsampling our pixel art shadow. I wanted to avoid downsampled shadows because downsampling ruins the look of pixel art (for example: single-texel lines will disappear).
 
@@ -123,16 +123,15 @@ Besides solving the shadowing problems, this solution had some other nice benefi
 - I could place objects at arbitrary "layers" by changing their z coordinate.
 - Tiles at the far plane never move. With my previous approach, even if I moved a tile to the far plane, it would still shift a bit. To achieve no movement with a perspective camera would have required some special case code similar to a skybox in a 3D game.
 
-Something cool I discovered was that a skew matrix allows you to have parallax in a single axis only. For instance, you could have a game where there is parallax when the camera moves in the x direction but not in the y direction. You'd just need to change your skew matrix construction so that the infinity point always has the same y coordinate as the camera. This is something I'd like to experiment with in the future.
+Something cool I discovered was that a skew matrix allows you to have parallax in a single axis only. For instance, you could have a game where there is parallax when the camera moves in the x direction but not in the y direction. You'd just need to change your skew matrix construction so that the vanishing point always has the same y coordinate as the camera. This is something I'd like to experiment with in the future.
 
 ###Non-parallax layers
 
 Sometimes we don't want layers to parallax with each other. For example, imagine you have a wall tile and you want to place a painting on it. You probably don't want the painting to parallax with the wall. To support this I just added a layer property to each tile. At render time, the tiles were already sorted by z depth. So I just extended the sort function to sort by z and then by layer.
 
-<!---
 <video autoplay loop muted playsinline>
   <source src="assets/omega.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
--->
+
 
