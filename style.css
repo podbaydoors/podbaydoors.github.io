@@ -346,27 +346,3 @@ figure img {
   text-decoration: none;
 }
 
-/* full-screen dimmer */
-.video-backdrop {
-  position: fixed;
-  inset: 0;                 /* top, right, bottom, left = 0 */
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;            /* high enough to sit on top of everything */
-}
-
-/* keeps the big video inside the viewport */
-.video-wrapper {
-  max-width: 90vw;          /* never wider than viewport – 5 % margin each side */
-  max-height: 90vh;         /* never taller than viewport */
-}
-
-.video-wrapper video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 4px;
-}
-

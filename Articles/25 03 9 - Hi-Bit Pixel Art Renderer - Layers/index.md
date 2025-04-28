@@ -129,19 +129,67 @@ Something cool I discovered was that a skew matrix allows you to have parallax i
 
 Sometimes we don't want layers to parallax with each other. For example, imagine you have a wall tile and you want to place a painting on it. You probably don't want the painting to parallax with the wall. To support this I just added a layer property to each tile. At render time, the tiles were already sorted by z depth. So I just extended the sort function to sort by z and then by layer.
 
-<!-- Low-resolution thumbnail (fits your page margins) -->
-<video class="video-thumb" controls preload="metadata" width="480">
-  <source src="Assets/Omega.mp4" type="video/mp4" />
-  Sorry, your browser can’t play embedded videos.
+<!-- 1) Your inline “thumbnail” video -->
+<video
+  autoplay loop muted playsinline
+  id="video-thumb"
+  src="Assets/Omega.mp4"
+  style="cursor: pointer;"
+  data-full="Assets/Omega.mp4">
 </video>
 
-<!-- Hidden template that will be materialised on click -->
-<template id="video-modal-template">
-  <div class="video-backdrop" role="dialog" aria-label="Expanded video">
-    <div class="video-wrapper">
-      <video controls autoplay preload="none">
-        <source src="Assets/Omega.mp4" type="video/mp4" />
-      </video>
-    </div>
+<!-- 2) The hidden modal container -->
+<div id="video-modal" class="modal">
+  <div class="modal-content">
+    <video id="video-full"></video>
   </div>
-</template>
+</div>
+
+<style>
+  /* Modal backdrop */
+  .modal {
+    display: none;              /* hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  /* Centered video container */
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  /* Make the expanded video scale to fit */
+  #video-full {
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+<script>
+  // grab elements
+  const thumb = document.getElementById('video-thumb');
+  const modal = document.getElementById('video-modal');
+  const fullVid = document.getElementById('video-full');
+
+  // when thumbnail is clicked...
+  thumb.addEventListener('click', () => {
+    fullVid.src = thumb.dataset.full;    // load high-res file
+    modal.style.display = 'flex';        // show modal
+    fullVid.play();                      // optionally auto-play
+  });
+
+  // clicking anywhere outside the video closes the modal
+  modal.addEventListener('click', e => {
+    if (!e.target.closest('.modal-content')) {
+      fullVid.pause();
+      fullVid.currentTime = 0;
+      modal.style.display = 'none';
+      fullVid.src = '';                  // unload to save memory
+    }
+  });
+</script>
+
+

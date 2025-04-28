@@ -137,7 +137,6 @@ def convert_article(article_dir):
   <title>{article_title}</title>
   <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="../../pygments.css">
-  <script src="../../modal-video.js" defer></script>
 </head>
 <body>
   <div class="site-title">
@@ -192,7 +191,6 @@ def convert_program(program_dir):
   <title>{program_title}</title>
   <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="../../pygments.css">
-  <script src="../../modal-video.js" defer></script>
 </head>
 <body>
   <div class="site-title">
@@ -236,7 +234,6 @@ def convert_about():
   <title>{page_title}</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../pygments.css">
-  <script src="../modal-video.js" defer></script>
 </head>
 <body>
   <div class="site-title">
@@ -286,7 +283,6 @@ def generate_main_index(article_info_list, program_info_list):
   <title>pod bay doors</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pygments.css">
-  <script src="modal-video.js" defer></script>
   <style>
     ul {{
       list-style: none;
