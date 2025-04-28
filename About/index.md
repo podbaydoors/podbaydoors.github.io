@@ -1,7 +1,11 @@
-#About Me
+#About
 
-Coding computer games has fascinated me for as long as I can remember. Orson Welles once likened moviemaking to "the biggest electric train set a boy ever had." But they didn't have video games back then. 
+<figure>
+    <img title="" src="Assets/donkykong.jpg" alt="" data-align="center" width="500">
+</figure>
 
-I've been fortunate to work in the games industry for over 25 years.
+I've been fascinated by coding computer games for as long as I can remember. Orson Welles once described moviemaking as "the biggest electric train set a boy ever had" - but back then they didn't have video games.
 
-This is my personal site where I share my hobby projects.
+I've spent over 25 years working in the games industry, including on the Luigi's Mansion and Mario Strikers series.
+
+This is my personal site where I share some of my hobby projects.
