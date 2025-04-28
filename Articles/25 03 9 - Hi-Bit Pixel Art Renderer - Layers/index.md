@@ -32,7 +32,9 @@ I also knew that I wanted my renderer to implement pixel-perfect texture samplin
 I'll discuss the implementation of each of these features in future articles. For the remainder of this article, I'll explain how I supported layers in the renderer.
 
 ###Approach 1 - 2D layers
-My initial approach was to copy how 2D games did it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. In my renderer each layer was composed of tiles. Tiles are just screen-facing quads with a texture applied to them. At render time, I drew the layers back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I scaled the translation by the parallax amount. So for a layer with a parallax scalar equal to 1, the layer would track the camera exactly. For a layer with a parallax scalar set to .5, the tiles in that layer would move at half the speed. 
+My initial approach was to copy how 2D games did it before the advent of 3D rendering: Represent the scene as a series of 2D layers and assign each layer a parallax scalar. 
+
+In my renderer each layer was composed of tiles. Tiles are just screen-facing quads with a texture applied to them. At render time, I drew the layers back-to-front using an orthographic view-projection matrix. When calculating the view matrix for a layer, I scaled the translation by the parallax amount. So for a layer with a parallax scalar equal to 1, the layer would track the camera exactly. For a layer with a parallax scalar set to .5, the tiles in that layer would move at half the speed. 
 
 <figure>
     <img title="" src="assets/LayerDiagram.jpg" alt="" data-align="center" width="700">
@@ -123,6 +125,8 @@ Besides solving the shadowing problems, this solution had some other nice benefi
 - I could place objects at arbitrary "layers" by changing their z coordinate.
 - Tiles at the far plane never move. With my previous approach, even if I moved a tile to the far plane, it would still shift a bit. To achieve no movement with a perspective camera would have required some special case code similar to a skybox in a 3D game.
 
+This approach is the one I stuck with for the remainder of the project.
+
 Something cool I realized was that a skew matrix allows you to have parallax in a single axis only. For instance, you could have a game where there is parallax when the camera moves in the x direction but not in the y direction. You'd just need to change your skew matrix construction so that the vanishing point always has the same y coordinate as the camera. This is something I'd like to experiment with in the future.
 
 ###Non-parallax layers
@@ -138,7 +142,7 @@ Here's a video of moving the camera in the scene editor. As the camera moves you
 	  <source src="Assets/Omega.mp4" type="video/mp4" />
 	  Sorry, your browser can’t play embedded videos.
 	</video>
-	<figcaption><small>Video of layer parallax in action</small></figcaption>
+	<figcaption><small>Video of orthographic skewed parallax in action</small></figcaption>
 </figure>
 
 You can see the completed WebGL version of my renderer [here](../../Programs/1%20-%20Hi-Bit%20Demo/index.html)
