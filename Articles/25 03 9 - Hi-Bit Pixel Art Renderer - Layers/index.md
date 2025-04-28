@@ -140,3 +140,5 @@ Here's a video of moving the camera in the scene editor. As the camera moves you
 	</video>
 	<figcaption><small>Video of layer parallax in action</small></figcaption>
 </figure>
+
+You can see the completed WebGL version of my renderer [here](../../Programs/1%20-%20Hi-Bit%20Demo/index.html)
