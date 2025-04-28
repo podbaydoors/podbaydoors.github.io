@@ -299,6 +299,10 @@ figure img {
   margin-bottom: 1rem;
 }
 
+figure video {
+	margin-bottom: 1rem;
+}
+
 .article-end-line {
   width: 100vw;
   margin-left: calc(-50vw + 50%);

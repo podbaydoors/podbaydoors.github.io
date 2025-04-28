@@ -129,7 +129,14 @@ Something cool I discovered was that a skew matrix allows you to have parallax i
 
 Sometimes we don't want layers to parallax with each other. For example, imagine you have a wall tile and you want to place a painting on it. You probably don't want the painting to parallax with the wall. To support this I just added a layer property to each tile. At render time, the tiles were already sorted by z depth. So I just extended the sort function to sort by z and then by layer.
 
-<video class="video-thumb" controls loop preload="metadata" width=100% height=auto>
-  <source src="Assets/Omega.mp4" type="video/mp4" />
-  Sorry, your browser can’t play embedded videos.
-</video>
+###Conclusion
+
+Here's a video of moving the camera in the scene editor. As the camera moves you can see the scene layers translate by different amounts. 
+
+<figure>
+	<video class="video-thumb" controls loop preload="metadata" width=100% height=auto>
+	  <source src="Assets/Omega.mp4" type="video/mp4" />
+	  Sorry, your browser can’t play embedded videos.
+	</video>
+	<figcaption><small>Video of layer parallax in action</small></figcaption>
+</figure>
